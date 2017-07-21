@@ -1,37 +1,35 @@
 //Settings: select hooks to load
 //Настройки: выбор хуков для загрузки
 
-//settings
-vivaldi.jdhooks.hookClass('StartupSetting', function(reactClass) {
+vivaldi.jdhooks.hookSettingsWrapper("StartupSettings", function(fn, settingsKeys) {
 
     var newScripts = {};
     var jdhooksStartupSettings;
 
-    //settings init
-    vivaldi.jdhooks.hookMember(reactClass, 'componentWillMount', function(hookData) {
+    var settings = vivaldi.jdhooks.require("_VivaldiSettings");
 
-        var settings = vivaldi.jdhooks.require('_VivaldiSettings');
+    vivaldi.jdhooks.hookMember(fn.prototype, "componentWillMount", function(hookData) {
 
-        this.updateHookSettings = function() {
+        var _this = this;
+
+        _this.updateHookSettings = function() {
             settings.set({
                 JDHOOKS_STARTUP: jdhooksStartupSettings
             });
         };
-
-        this.toggleDefaultLoad = function() {
-            jdhooksStartupSettings.defaultLoad = !this.state.jdhooks_defaultLoad;
-            this.updateHookSettings();
-            this.setState({
-                jdhooks_defaultLoad: !this.state.jdhooks_defaultLoad
+        _this.toggleDefaultLoad = function() {
+            jdhooksStartupSettings.defaultLoad = !_this.state.jdhooks_defaultLoad;
+            _this.updateHookSettings();
+            _this.setState({
+                jdhooks_defaultLoad: !_this.state.jdhooks_defaultLoad
             });
         };
-
-        this.toggleScriptState = function(script) {
-            jdhooksStartupSettings.scripts[script] = !this.state['jdhooks_' + script];
-            this.updateHookSettings();
+        _this.toggleScriptState = function(script) {
+            jdhooksStartupSettings.scripts[script] = !_this.state["jdhooks_" + script];
+            _this.updateHookSettings();
             var state = {};
-            state['jdhooks_' + script] = !this.state['jdhooks_' + script];
-            this.setState(state);
+            state["jdhooks_" + script] = !_this.state["jdhooks_" + script];
+            _this.setState(state);
         };
 
         function updateState(obj) {
@@ -47,7 +45,7 @@ vivaldi.jdhooks.hookClass('StartupSetting', function(reactClass) {
                     updated = true;
                 }
 
-                state['jdhooks_' + script] = jdhooksStartupSettings.scripts[script];
+                state["jdhooks_" + script] = jdhooksStartupSettings.scripts[script];
             };
 
             obj.setState(state);
@@ -55,7 +53,7 @@ vivaldi.jdhooks.hookClass('StartupSetting', function(reactClass) {
 
         if (!jdhooksStartupSettings) {
             //read cfg, fill props & state
-            settings.get('JDHOOKS_STARTUP', function(e) {
+            settings.get("JDHOOKS_STARTUP", function(e) {
                 if (undefined === e) e = {};
                 if (undefined === e.defaultLoad) e.defaultLoad = true;
                 if (undefined === e.scripts) e.scripts = {};
@@ -71,23 +69,23 @@ vivaldi.jdhooks.hookClass('StartupSetting', function(reactClass) {
                     }
                 }
 
-                updateState(this);
+                updateState(_this);
 
                 if (updated)
-                    this.updateHookSettings();
+                    _this.updateHookSettings();
 
-            }.bind(this));
+            }.bind(_this));
         } else
-            updateState(this);
+            updateState(_this);
     });
 
 
-    vivaldi.jdhooks.hookMember(reactClass, 'render', null, function(hookData) {
+    vivaldi.jdhooks.hookMember(fn.prototype, "render", null, function(hookData) {
 
         //check if settings are loaded
         if (hookData.retValue && (undefined !== this.state.jdhooks_defaultLoad)) {
 
-            var React = vivaldi.jdhooks.require('react_React');
+            var React = vivaldi.jdhooks.require("react_React");
 
             var subitems = [];
 
@@ -115,7 +113,7 @@ vivaldi.jdhooks.hookClass('StartupSetting', function(reactClass) {
                         React.createElement("label", null,
                             React.createElement("input", {
                                 type: "checkbox",
-                                checked: this.state['jdhooks_' + script],
+                                checked: this.state["jdhooks_" + script],
                                 onChange: this.toggleScriptState.bind(this, script)
                             }),
                             React.createElement("span", null,
@@ -156,6 +154,5 @@ vivaldi.jdhooks.hookClass('StartupSetting', function(reactClass) {
         }
 
         return hookData.retValue;
-    }); //vivaldi.jdhooks.hookMember(reactClass, 'render', null, function(hookData)
-
+    }); //vivaldi.jdhooks.hookMember(reactClass, "render", null, function(hookData)
 });

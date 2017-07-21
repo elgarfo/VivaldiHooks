@@ -2,8 +2,8 @@
 
 (function() {
 
-    var style = document.createElement('style');
-    style.setAttribute('description', 'added by move-V-button-to-addressbar.js');
+    var style = document.createElement("style");
+    style.setAttribute("description", "added by move-V-button-to-addressbar.js");
     style.textContent =
         "#browser #tabs-container.top{ padding-left: 0px }" +
         "#browser.native:not(.tabs-top):not(.horizontal-menu) #header { display: none } " +
@@ -12,11 +12,11 @@
     document.head.appendChild(style);
 
     function showMenu(event) {
-        var button = document.querySelector('#browser:not(.horizontal-menu) .vivaldi-addressbar');
+        var button = document.querySelector("#browser:not(.horizontal-menu) .vivaldi-addressbar.button-toolbar");
         if (button) {
-            vivaldi.jdhooks.require('_ShowMenu')(
-                vivaldi.jdhooks.require('_CommandManager').getVerticalMenu(
-                    vivaldi.jdhooks.require('_PageStore').getPages()
+            vivaldi.jdhooks.require("_ShowMenu")(
+                vivaldi.jdhooks.require("_CommandManager").getVerticalMenu(
+                    vivaldi.jdhooks.require("_PageStore").getPages()
                 ),
                 null, "bottom", button
             )(event);
@@ -25,27 +25,32 @@
         return false;
     }
 
-    //alt key menu
-    vivaldi.jdhooks.hookClass('TitleBar', function(reactClass) {
-        vivaldi.jdhooks.hookMember(reactClass, 'showMenu', function(hookData, event) {
-            if (showMenu(event))
+
+    vivaldi.jdhooks.hookSettingsWrapper("TitleBar", function(fn, settingsKeys) {
+	    vivaldi.jdhooks.hookMember(fn.prototype, "componentWillMount", function(hookData) {
+        vivaldi.jdhooks.hookMember(this, "showMenu", function(hookData, event) {
+            var button = document.querySelector("#browser:not(.horizontal-menu) .vivaldi-addressbar.button-toolbar");
+            if (button) {
                 hookData.abort();
-        });
+                button.click();
+            }
+        })
+	    })
     });
 
 
     function hookRender(reactClass) {
-        vivaldi.jdhooks.hookMember(reactClass, 'render', null, function(hookData) {
+        vivaldi.jdhooks.hookMember(reactClass, "render", null, function(hookData) {
 
             hookData.retValue.props.children.push(
-                vivaldi.jdhooks.require('react_React').createElement('div', {
-                        className: 'vivaldi-addressbar button-toolbar',
-                        ref: 'movedVButton',
+                vivaldi.jdhooks.require("react_React").createElement("div", {
+                        className: "vivaldi-addressbar button-toolbar",
+                        ref: "movedVButton",
                         dangerouslySetInnerHTML: {
                             __html: vivaldi.jdhooks.require(
-                                '_svg_vivaldi_title'
-                                //'_svg_menu_vivaldi'
-                                //'_svg_vivaldi_v'
+                                //"_svg_vivaldi_title"
+                                "_svg_menu_vivaldi"
+                                //"_svg_vivaldi_v"
                             )
                         },
                         onClick: showMenu.bind(this)
@@ -58,12 +63,14 @@
         });
     }
 
-    vivaldi.jdhooks.hookClass('UrlBar', function(reactClass) {
-        hookRender(reactClass)
+
+    vivaldi.jdhooks.hookSettingsWrapper("UrlBar", function(fn, settingsKeys) {
+        hookRender(fn.prototype);
     });
 
-    vivaldi.jdhooks.hookClass('MailBar', function(reactClass) {
-        hookRender(reactClass)
+
+    vivaldi.jdhooks.hookSettingsWrapper("MailBar", function(fn, settingsKeys) {
+        hookRender(fn.prototype)
     });
 
 })();

@@ -6,9 +6,9 @@ vivaldi.jdhooks.onUIReady(function() {
     function setup(tabstrip) {
         if (!tabstrip) return;
 
-        var tabspacer = document.createElement('div');
+        var tabspacer = document.createElement("div");
         tabspacer.className = "tab-spacer";
-        tabspacer.style.cssText = 'top: 0px; left: 0px; height: 100%; width: 100%; position: absolute; -webkit-app-region: no-drag;';
+        tabspacer.style.cssText = "top: 0px; left: 0px; height: 100%; width: 100%; position: absolute; -webkit-app-region: no-drag;";
 
         tabstrip.parentNode.insertBefore(tabspacer, tabstrip);
 
@@ -20,7 +20,7 @@ vivaldi.jdhooks.onUIReady(function() {
         };
     }
 
-    setup(document.querySelector('#tabs-container > div.resize > div.tab-strip'));
+    setup(document.querySelector("#tabs-container > div.resize > div.tab-strip"));
 
     var obs = new MutationObserver(function(mutations, observer) {
         mutations.forEach(function(mutation) {
@@ -31,12 +31,15 @@ vivaldi.jdhooks.onUIReady(function() {
         });
     });
 
-    obs.observe(document.querySelector('#main'), {
-        childList: true,
-        subtree: true
-    });
-    obs.observe(document.querySelector('#header'), {
-        childList: true,
-        subtree: true
-    });
+    var nodeMain = document.querySelector("#main");
+    if (nodeMain) {
+        obs.observe(nodeMain, {
+            childList: true,
+            subtree: true
+        });
+        obs.observe(document.querySelector("#header"), {
+            childList: true,
+            subtree: true
+        });
+    }
 });

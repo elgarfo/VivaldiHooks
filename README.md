@@ -1,6 +1,6 @@
 # VivaldiHooks
 
-##About
+## About
 VivaldiHooks is a set of hooks/scripts for Vivaldi browser modding.
 
 It's something close to [VivaldiPatches](https://github.com/justdanpo/VivaldiPatches) but it has some advantages:
@@ -11,8 +11,8 @@ It's something close to [VivaldiPatches](https://github.com/justdanpo/VivaldiPat
 
 But some of mods cannot be implemented as hooks, so I don't bury VivaldiPatches.
 
-##Installation
-###Automatic (Windows only)
+## Installation
+### Automatic (Windows only)
 Just run **installhooks.bat**. It will find installation path automatically if Vivaldi is set as your default browser.
 
 If Vivaldi is installed in "Program Files" or any other write-restricted folder, you must run the script as Administrator.
@@ -26,7 +26,7 @@ Another easy way: drag Vivaldi directory and drop it on **installhooks.bat**.
 
 ~~Note: **browser.html** will be overwritten.~~
 
-###Manual
+### Manual
 
 First of all, find Vivaldi installation folder (**{instdir}**):
 
@@ -42,18 +42,15 @@ Or if you want to keep mods you've installed into **browser.html**, copy **vival
 
 right before a line with **bundle.js**.
 
-If Vivaldi prompts you to save **vendor-bundle.js**, save it into the same directory.
-Note: browser may not have access rights to write there.
-
 You may need to chmod new/updated files.
 
-##Deinstallation
+## Deinstallation
 
 If some hooks cause Vivaldi to crash, you can remove just hook files.
 
 The easiest way to "uninstall"/disable VivaldiHooks is to delete **{instdir}\vivaldi\jdhooks.js**.
 
-##Screenshots
+## Screenshots
 
 ### [bookmarks-button.js](vivaldi/hooks/bookmarks-button.js)
 

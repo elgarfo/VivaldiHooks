@@ -2,12 +2,15 @@
 
 vivaldi.jdhooks.onUIReady(function() {
 
-    var uaActions = vivaldi.jdhooks.require('_UIActions');
+    var uaActions = vivaldi.jdhooks.require("_UIActions");
 
-    var zoomControl = document.querySelector('.zoom-control');
-    var range = zoomControl.querySelector('input');
+    var zoomControl = document.querySelector(".zoom-control");
+    if (!zoomControl)
+        return;
 
-    zoomControl.addEventListener('mousewheel', function(event) {
+    var range = zoomControl.querySelector("input");
+
+    zoomControl.addEventListener("mousewheel", function(event) {
         if (!range.disabled && !zoomControl.querySelector('input[type="range"]')) {
             if (event.deltaY > 0)
                 uaActions.zoomOut();
@@ -17,7 +20,7 @@ vivaldi.jdhooks.onUIReady(function() {
         }
     })
 
-    zoomControl.addEventListener('mouseup', function(event) {
+    zoomControl.addEventListener("mouseup", function(event) {
         if (event.button === 1) {
             uaActions.zoomReset();
 
@@ -26,7 +29,7 @@ vivaldi.jdhooks.onUIReady(function() {
         }
     });
 
-    zoomControl.addEventListener('click', function(event) {
+    zoomControl.addEventListener("click", function(event) {
         if (event.button === 1) {
             event.stopPropagation();
             event.preventDefault();
