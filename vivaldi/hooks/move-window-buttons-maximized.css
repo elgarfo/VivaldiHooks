@@ -1,0 +1,55 @@
+/* move-window-buttons-maximized */
+
+#browser:not(.native):not(.horizontal-menu):not(.tabs-top).maximized #header
+{
+	height: 2px;
+}
+
+#browser.horizontal-menu .MaximizedWindowButtons,
+#browser.tabs-top .MaximizedWindowButtons,
+#browser:not(.maximized) .MaximizedWindowButtons,
+#browser.native .MaximizedWindowButtons
+{
+	display: none
+}
+
+#browser .MaximizedWindowButtons button
+{
+	height: auto;
+	margin-bottom: 4px;
+}
+
+#browser .window-buttongroup.MaximizedWindowButtons button.window-close
+{
+	fill: #000;
+}
+
+#browser .window-buttongroup.MaximizedWindowButtons button.window-close:hover
+{
+	fill: #fff;
+    background-color: #e3423e
+}
+
+#browser:not(.native):not(.horizontal-menu):not(.tabs-top).maximized .toolbar.toolbar-addressbar .button-toolbar.browserAction-button
+{
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+#browser:not(.native):not(.horizontal-menu):not(.tabs-top).maximized .addressfield
+{
+	margin-top: 0px;
+	margin-bottom: 3px;
+}
+
+#browser:not(.native):not(.horizontal-menu):not(.tabs-top).maximized .toolbar .button-toolbar
+{
+	height: 29px;
+	margin-top: -2px;
+	margin-bottom: 2px;
+}
+
+#browser:not(.native):not(.horizontal-menu):not(.tabs-top).maximized #header
+{
+	margin-top: -20px;
+}

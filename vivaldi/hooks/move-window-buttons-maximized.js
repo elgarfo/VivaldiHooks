@@ -2,17 +2,6 @@
 
 (function() {
 
-    var style = document.createElement("style");
-    style.setAttribute("description", "added by move-window-buttons-maximized.js");
-    style.textContent =
-        "#browser:not(.native):not(.horizontal-menu):not(.tabs-top).maximized #header { top:-100px; position:absolute } " +
-
-        "#browser.horizontal-menu .MaximizedWindowButtons, " +
-        "#browser.tabs-top .MaximizedWindowButtons, " +
-        "#browser:not(.maximized) .MaximizedWindowButtons," +
-        "#browser.native .MaximizedWindowButtons { display: none } ";
-    document.head.appendChild(style);
-
 
     function hookRender(reactClass) {
         var iconClose, iconMinimize, iconZoom;
